@@ -13,7 +13,7 @@ const forgotpassword = async (req, res) => {
         //Initiate connection
         let client = await mongoClient.connect(MONGO_URL);
         //Select db
-        let db = client.db("FPadmin");
+        let db = client.db("Urlshortener");
         //Check user exists
         let user = await db.collection('users').findOne({ email: req.body.email });
         //if user exists!
@@ -40,7 +40,7 @@ const forgotpassword = async (req, res) => {
                 from: 'no-reply@noreply.com',
                 to: `${req.body.email}`,
                 subject: 'Reset Password - BrandFP',
-                html: `<h4>Hello,</h4><p>We've received a request to reset the password for the AdminFP account. You can reset the password by clicking the link below.</p><link>${process.env.FRONTEND_URL}/reset-password?tk=${randomString}</link>`
+                html: `<h4>Hello,</h4><p>We've received a request to reset the password for the URLShortener account. You can reset the password by clicking the link below.</p><link>${process.env.FRONTEND_URL}/reset-password?tk=${randomString}</link>`
             }
             //Send mail
             transporter.sendMail(mailOptions, (err, data) => {

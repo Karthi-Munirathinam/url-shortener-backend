@@ -12,7 +12,7 @@ const changepassword = async (req, res) => {
         //Initiate connection
         let client = await mongoClient.connect(MONGO_URL);
         //Select db
-        let db = client.db("FPadmin");
+        let db = client.db("Urlshortener");
         //Select the collection and perform operation
         const salt = bcrypt.genSaltSync(10);
         const hashedpassword = bcrypt.hashSync(req.body.password, salt);

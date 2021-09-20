@@ -11,7 +11,7 @@ const resetpassword = async (req, res) => {
         //Initiate connection
         let client = await mongoClient.connect(MONGO_URL);
         //Select db
-        let db = client.db("FPadmin");
+        let db = client.db("Urlshortener");
         //Check for the user
         let user = await db.collection('users').findOne({ resetPasswordToken: requesttoken, resetPasswordExpires: { $gt: new Date() } });
         //if user exists!

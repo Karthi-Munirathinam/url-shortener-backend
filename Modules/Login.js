@@ -12,7 +12,7 @@ const login = async (req, res) => {
         //Initiate connection
         let client = await mongoClient.connect(MONGO_URL);
         //Select db
-        let db = client.db("FPadmin");
+        let db = client.db("Urlshortener");
         //Check user exists
         let user = await db.collection('users').findOne({ email: req.body.email });
         if (user) {
