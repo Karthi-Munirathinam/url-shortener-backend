@@ -13,7 +13,7 @@ const redirection = async (req, res) => {
         let db = client.db("Urlshortener");
         //Check for the user
         let url = await db.collection('Url').findOne({ UrlID: req.params.UrlID });
-        console.log(url, req.params.UrlID);
+        // console.log(url, req.params.UrlID);
         if (url) {
             let clicks = url.totalClicks + 1;
             await db.collection('Url').findOneAndUpdate({ UrlID: req.params.UrlID }, { $set: { totalClicks: clicks } });

@@ -18,7 +18,7 @@ const authenticate = (req, res, next) => {
             res.status(403)
         }
     } catch (error) {
-
+        console.log(error);
     }
 }
 
