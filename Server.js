@@ -9,7 +9,8 @@ const forgotpassword = require("./Modules/Forgotpassword");
 const resetpassword = require("./Modules/Resetpassword");
 const changepassword = require("./Modules/Changepassword");
 const getUser = require("./Modules/Getuser");
-
+const shortener = require("./Modules/Shortener")
+const redirection = require("./Modules/Redirection");
 dotenv.config();
 app.use(express.json());
 app.use(cors({
@@ -30,5 +31,9 @@ app.post('/forgotpassword', forgotpassword);
 app.post('/resetpassword', resetpassword)
 //Change password
 app.post('/changepassword', changepassword)
+//Create UrlShortener
+app.post('/short', authenticate, shortener);
+//Redirect the short url
+app.get('/:UrlID', redirection);
 
 app.listen(PORT, () => console.log(`App is running in http://localhost:${PORT}`))
