@@ -38,7 +38,7 @@ const forgotpassword = async (req, res) => {
             let mailOptions = {
                 from: 'no-reply@noreply.com',
                 to: `${req.body.email}`,
-                subject: 'Reset Password - BrandFP',
+                subject: 'Reset Password - URLShortener',
                 html: `<h4>Hi,</h4><p>We've received a request to reset the password. You can reset the password by clicking the link below.</p><a href="${process.env.FRONTEND_URL}/reset-password?tk=${randomString}">Reset Password</a>`
             }
             //Send mail
