@@ -47,7 +47,4 @@ app.get('/chartdata', authenticate, Groupdata)
 app.get('/:UrlID', redirection);
 
 
-
-
-
 app.listen(PORT, () => console.log(`App is running in http://localhost:${PORT}`))

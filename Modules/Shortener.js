@@ -19,7 +19,7 @@ const Shortener = async (req, res) => {
             if (url) {
                 res.send(url)
             } else {
-                const shortUrl = `${process.env.FRONTEND_URL}/${UrlID}`;
+                const shortUrl = `${process.env.BACKEND_URL}/${UrlID}`;
                 let Url = await db.collection('Url').insertOne({ originalUrl: originalURL, shortUrl: shortUrl, UrlID: UrlID, userID: mongodb.ObjectId(req.body.userid), date: new Date(), totalClicks: 0 });
                 await client.close();
                 res.send(Url);
