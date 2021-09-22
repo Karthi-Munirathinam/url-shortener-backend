@@ -16,19 +16,26 @@ const login = async (req, res) => {
         //Check user exists
         let user = await db.collection('users').findOne({ email: req.body.email });
         if (user) {
-            let matchPassword = bcrypt.compareSync(req.body.password, user.password);
-            if (matchPassword) {
-                //jwt token
-                let token = jwt.sign({ id: user._id }, process.env.SECRET_KEY)
-                await client.close();
-                res.json({
-                    message: "Success",
-                    token: token
-                });
+            if (user.active) {
+                let matchPassword = bcrypt.compareSync(req.body.password, user.password);
+                if (matchPassword) {
+                    //jwt token
+                    let token = jwt.sign({ id: user._id }, process.env.SECRET_KEY)
+                    await client.close();
+                    res.json({
+                        message: "Success",
+                        token: token
+                    });
+                }
+                else {
+                    res.status(404).json({
+                        message: "email/password doesnot match"
+                    })
+                }
             }
             else {
                 res.status(404).json({
-                    message: "email/password doesnot match"
+                    message: "Account is not activated! Check your mail to activate."
                 })
             }
         }

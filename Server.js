@@ -13,6 +13,7 @@ const shortener = require("./Modules/Shortener")
 const redirection = require("./Modules/Redirection");
 const ShortURL = require("./Modules/ShortURL");
 const Groupdata = require("./Modules/Groupdata");
+const activateaccount = require("./Modules/ActivateAccount");
 
 dotenv.config();
 app.use(express.json());
@@ -24,6 +25,8 @@ const PORT = process.env.PORT || 5000;
 
 //Create User
 app.post('/register', register)
+//Activate account
+app.post('/activateaccount', activateaccount)
 //Login
 app.post('/login', login)
 //Homepage

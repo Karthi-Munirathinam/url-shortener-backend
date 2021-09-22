@@ -22,7 +22,6 @@ const forgotpassword = async (req, res) => {
             let randomString = randomstring.generate();
 
             //send a mail using nodemailer
-
             //Create Transporter
             let transporter = nodemailer.createTransport({
                 service: 'gmail',
@@ -40,7 +39,7 @@ const forgotpassword = async (req, res) => {
                 from: 'no-reply@noreply.com',
                 to: `${req.body.email}`,
                 subject: 'Reset Password - BrandFP',
-                html: `<h4>Hello,</h4><p>We've received a request to reset the password for the URLShortener account. You can reset the password by clicking the link below.</p><link>${process.env.FRONTEND_URL}/reset-password?tk=${randomString}</link>`
+                html: `<h4>Hi,</h4><p>We've received a request to reset the password. You can reset the password by clicking the link below.</p><a href="${process.env.FRONTEND_URL}/reset-password?tk=${randomString}">Reset Password</a>`
             }
             //Send mail
             transporter.sendMail(mailOptions, (err, data) => {
