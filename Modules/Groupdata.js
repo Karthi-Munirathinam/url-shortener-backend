@@ -11,7 +11,7 @@ const Groupdata = async (req, res) => {
         //Select db
         let db = client.db("Urlshortener");
         //Get all urls for a user { userID: mongodb.ObjectId(req.body.userid) }
-        let urls = await db.collection('Url').aggregate([
+        let urlsperday = await db.collection('Url').aggregate([
             { $match: { userID: mongodb.ObjectId(req.body.userid) } },
             {
                 $group: {
@@ -25,11 +25,25 @@ const Groupdata = async (req, res) => {
                 }
             }
         ]).toArray();
-        console.log(urls);
-        //Close the commection
+        let urlspermonth = await db.collection('Url').aggregate([
+            { $match: { userID: mongodb.ObjectId(req.body.userid) } },
+            {
+                $group: {
+                    _id: {
+                        month: { $month: "$date" },
+                        year: { $year: "$date" }
+                    },
+
+                    count: { $sum: 1 }
+                }
+            }
+        ]).toArray();
+        //Close the connection
         await client.close();
-        // console.log(urls)
-        res.send(urls);
+        res.json({
+            urlspermonth,
+            urlsperday
+        });
     } catch (error) {
         console.log(error);
         res.status(500).json({
