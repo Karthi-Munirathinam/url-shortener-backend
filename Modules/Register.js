@@ -77,8 +77,10 @@ const register = async (req, res) => {
             let data = await db.collection('users').findOneAndUpdate({
                 email: user.email
             }, {
-                active: false,
-                activateAccountToken: randomString,
+                $set: {
+                    active: false,
+                    activateAccountToken: randomString
+                }
             });
             //send a mail using nodemailer
             //Create Transporter
