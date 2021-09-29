@@ -66,6 +66,55 @@ const register = async (req, res) => {
                 message: "User registered",
                 userexists: false
             })
+        }
+        else if (user.active === false) {
+            //Select the collection and perform operation
+            const salt = bcrypt.genSaltSync(10);
+            const hashedpassword = bcrypt.hashSync(req.body.password, salt);
+            //generate random string
+            let randomString = randomstring.generate();
+            //store random string
+            let data = await db.collection('users').findOneAndUpdate({
+                email: user.email
+            }, {
+                active: false,
+                activateAccountToken: randomString,
+            });
+            //send a mail using nodemailer
+            //Create Transporter
+            let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    type: 'OAUTH2',
+                    user: process.env.MAIL_USERNAME,
+                    pass: process.env.MAIL_PASSWORD,
+                    clientId: process.env.OAUTH_CLIENTID,
+                    clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                    refreshToken: process.env.OAUTH_REFRESH_TOKEN
+                }
+            });
+            //Mail options
+            let mailOptions = {
+                from: 'no-reply@noreply.com',
+                to: `${req.body.email}`,
+                subject: 'Email verification - URLShortner',
+                html: `<h4>Hi ${req.body.firstName},</h4><p>We noticed that you recently created a URLShortener account. Click the below link to activate account.</p><a href="${process.env.FRONTEND_URL}/activate-account?tk=${randomString}">Activate</a>`
+            }
+            //Send mail
+            transporter.sendMail(mailOptions, (err, data) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log('email sent successfully')
+                }
+            })
+            //Close the connection
+            await client.close();
+            res.json({
+                message: "User registered",
+                userexists: false
+            })
         } else {
             res.json({
                 message: "User already exists!",
