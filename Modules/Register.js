@@ -67,7 +67,7 @@ const register = async (req, res) => {
                 userexists: false
             })
         }
-        else if (user.active === false) {
+        else if (user && user.active === false) {
             //Select the collection and perform operation
             const salt = bcrypt.genSaltSync(10);
             const hashedpassword = bcrypt.hashSync(req.body.password, salt);
@@ -97,9 +97,9 @@ const register = async (req, res) => {
             //Mail options
             let mailOptions = {
                 from: 'no-reply@noreply.com',
-                to: `${req.body.email}`,
+                to: `${user.email}`,
                 subject: 'Email verification - URLShortner',
-                html: `<h4>Hi ${req.body.firstName},</h4><p>We noticed that you recently created a URLShortener account. Click the below link to activate account.</p><a href="${process.env.FRONTEND_URL}/activate-account?tk=${randomString}">Activate</a>`
+                html: `<h4>Hi ${user.firstName},</h4><p>We noticed that you recently created a URLShortener account. Click the below link to activate account.</p><a href="${process.env.FRONTEND_URL}/activate-account?tk=${randomString}">Activate</a>`
             }
             //Send mail
             transporter.sendMail(mailOptions, (err, data) => {
