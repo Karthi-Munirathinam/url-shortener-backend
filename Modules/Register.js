@@ -78,7 +78,6 @@ const register = async (req, res) => {
                 email: user.email
             }, {
                 $set: {
-                    active: false,
                     activateAccountToken: randomString
                 }
             });
