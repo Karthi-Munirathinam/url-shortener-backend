@@ -26,12 +26,12 @@ const forgotpassword = async (req, res) => {
             let transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
-                    type: 'OAUTH2',
+                    // type: 'OAUTH2',
                     user: process.env.MAIL_USERNAME,
                     pass: process.env.MAIL_PASSWORD,
-                    clientId: process.env.OAUTH_CLIENTID,
-                    clientSecret: process.env.OAUTH_CLIENT_SECRET,
-                    refreshToken: process.env.OAUTH_REFRESH_TOKEN
+                    // clientId: process.env.OAUTH_CLIENTID,
+                    // clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                    // refreshToken: process.env.OAUTH_REFRESH_TOKEN
                 }
             });
             //Mail options
